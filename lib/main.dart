@@ -1,6 +1,6 @@
+import 'package:beers_pairing/bloc/beers_bloc.dart';
+import 'package:beers_pairing/bloc/provider.dart';
 import 'package:flutter/material.dart';
-import 'api/punkapi.dart';
-import 'models/beer.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,13 +9,15 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return Provider(
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: MyHomePage(title: 'Flutter Demo Home Page'),
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -30,26 +32,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final apiClient = ApiClient();
-  Beer randomBeer;
-
   @override
   void initState() {
     super.initState();
-    getRandomBeer();
   }
 
-  void getRandomBeer() {
-    setState(() {
-      this.randomBeer = null;
-    });
-    apiClient.getMeRandomBeer().then(
-          (response) => apiClient.responseHandler(response, (error, beers) {
-            setState(() {
-              this.randomBeer = beers.first;
-            });
-          }),
-        );
+  @override
+  void didUpdateWidget(MyHomePage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    Provider.beersBlocOf(context).getRandomBeer();
   }
 
   @override
@@ -61,88 +52,90 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: Icon(Icons.refresh),
             onPressed: () {
-              getRandomBeer();
+              Provider.beersBlocOf(context).getRandomBeer();
             },
           ),
         ],
       ),
-      body: RandomBeerWidget(randomBeer: this.randomBeer),
+      body: RandomBeerWidget(),
     );
   }
 }
 
 class RandomBeerWidget extends StatelessWidget {
-  const RandomBeerWidget({
-    Key key,
-    @required this.randomBeer,
-  }) : super(key: key);
-
-  final Beer randomBeer;
-
   @override
   Widget build(BuildContext context) {
-    return (this.randomBeer != null)
-        ? SingleChildScrollView(
-            padding: const EdgeInsets.only(bottom: 20.0),
-            child: Container(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AspectRatio(
-                    aspectRatio: 1.0,
-                    child: (this.randomBeer.imageUrl != null)
-                        ? Image.network(this.randomBeer.imageUrl)
-                        : Container(
-                            color: Colors.grey.withOpacity(0.2),
-                          ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 12.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Container(
-                            margin: const EdgeInsets.only(right: 8.0),
-                            child: Text(
-                              this.randomBeer.name,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 20.0,
-                              ),
+    return StreamBuilder<BeersSate>(
+      stream: Provider.beersBlocOf(context).streamBeersSate,
+      initialData: BeersSate(),
+      builder: (BuildContext context, AsyncSnapshot<BeersSate> snapshot) {
+        if (snapshot.data.loadingRandomBeer ||
+            snapshot.data.currentRandomBeer == null) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return SingleChildScrollView(
+          padding: const EdgeInsets.only(bottom: 20.0),
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AspectRatio(
+                  aspectRatio: 1.0,
+                  child: (snapshot.data.currentRandomBeer.imageUrl != null)
+                      ? Image.network(snapshot.data.currentRandomBeer.imageUrl)
+                      : Container(
+                          color: Colors.grey.withOpacity(0.2),
+                        ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 12.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 8.0),
+                          child: Text(
+                            snapshot.data.currentRandomBeer.name,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 20.0,
                             ),
                           ),
                         ),
-                        AbvWidget(percentage: this.randomBeer.abv),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 12.0, bottom: 12.0),
-                    child: Text(
-                      this.randomBeer.description,
-                      style: TextStyle(
-                        fontSize: 15.0,
                       ),
-                    ),
+                      AbvWidget(
+                          percentage: snapshot.data.currentRandomBeer.abv),
+                    ],
                   ),
-                  Text(
-                    this.randomBeer.tagline,
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 12.0, bottom: 12.0),
+                  child: Text(
+                    snapshot.data.currentRandomBeer.description,
                     style: TextStyle(
-                      fontSize: 14.0,
-                      color: Colors.grey,
+                      fontSize: 15.0,
                     ),
                   ),
-                ],
-              ),
+                ),
+                Text(
+                  snapshot.data.currentRandomBeer.tagline,
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
             ),
-          )
-        : Center(
-            child: CircularProgressIndicator(),
-          );
+          ),
+        );
+      },
+    );
   }
 }
 

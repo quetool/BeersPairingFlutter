@@ -11,15 +11,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  json_annotation:
-  http: ^0.12.2
   cupertino_icons: ^0.1.3
+  # json_annotation:
+  http: ^0.12.2
+  rxdart: ^0.24.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  json_serializable:
-  build_runner:
+  # json_serializable:
+  # build_runner:
 
 flutter:
   uses-material-design: true

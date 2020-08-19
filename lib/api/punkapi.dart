@@ -31,7 +31,7 @@ class ApiClient {
   }
 
   responseHandler(
-      http.Response response, Function(Error error, List<Beer>) completion) {
+      http.Response response, Function(ApiError error, List<Beer>) completion) {
     if (response.statusCode == 200) {
       try {
         List<dynamic> jsonArray = json.decode(response.body);
@@ -39,14 +39,14 @@ class ApiClient {
           ..sort((a, b) => a.abv.compareTo(b.abv));
         completion(null, sortedList);
       } catch (e) {
-        var error = Error()
+        var error = ApiError()
           ..message = "Couldn't serialize response"
           ..statusCode = response.statusCode
           ..error = e.toString();
         completion(error, null);
       }
     } else {
-      completion(Error.fromJson(json.decode(response.body)), null);
+      completion(ApiError.fromJson(json.decode(response.body)), null);
     }
   }
 }

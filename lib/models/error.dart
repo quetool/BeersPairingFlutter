@@ -1,11 +1,11 @@
-class Error {
+class ApiError {
   int statusCode;
   String error;
   String message;
 
-  Error({this.statusCode, this.error, this.message});
+  ApiError({this.statusCode, this.error, this.message});
 
-  Error.fromJson(Map<String, dynamic> json) {
+  ApiError.fromJson(Map<String, dynamic> json) {
     statusCode = json['statusCode'];
     error = json['error'];
     message = json['message'];
