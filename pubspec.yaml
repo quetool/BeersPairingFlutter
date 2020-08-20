@@ -15,6 +15,7 @@ dependencies:
   # json_annotation:
   http: ^0.12.2
   rxdart: ^0.24.1
+  cached_network_image: ^2.2.0+1
 
 dev_dependencies:
   flutter_test:
