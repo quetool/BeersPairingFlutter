@@ -49,28 +49,26 @@ class _MainContainerState extends State<MainContainer> {
             // print(orientation);
             return Column(
               children: <Widget>[
-                (orientation == Orientation.portrait)
-                    ? TabBar(
-                        tabs: [
-                          Tab(
-                            child: Text(
-                              "Random Beer",
-                              style: TextStyle(
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          Tab(
-                            child: Text(
-                              "Paired Beers",
-                              style: TextStyle(
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    : Container(width: 0.0, height: 0.0),
+                TabBar(
+                  tabs: [
+                    Tab(
+                      child: Text(
+                        "Random Beer",
+                        style: TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        "Paired Beers",
+                        style: TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 Expanded(
                   child: TabBarView(
                     children: [
