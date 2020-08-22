@@ -49,9 +49,18 @@ class BeersBloc extends Object {
   }
 
   void getAllBeers(String byFood, int fromPage, int perPage) {
+    var currentState = currentBeersState();
+    currentState.loadingPairingList = true;
+    currentState.error = null;
+    sinkBeersSate(currentState);
+
     apiClient.getAllBeers(byFood, fromPage, perPage).then(
           (response) => apiClient.responseHandler(response, (error, beers) {
-            //
+            print(beers);
+            currentState.currentPairingList = beers;
+            currentState.error = error;
+            currentState.loadingPairingList = false;
+            sinkBeersSate(currentState);
           }),
         );
   }

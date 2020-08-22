@@ -10,7 +10,7 @@ class MainComponent extends StatefulWidget {
 
 class _MainComponentState extends State<MainComponent>
     with SingleTickerProviderStateMixin {
-  //
+  // asdasdsasda
   ScrollController _appBarController;
   TabController _tabController;
 
@@ -66,73 +66,8 @@ class _MainComponentState extends State<MainComponent>
           controller: _appBarController,
           physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: AppBar(
-                title: Text("Beers Pairing"),
-                actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.refresh),
-                    onPressed: () {
-                      Provider.beersBlocOf(context).getRandomBeer();
-                    },
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              color: Colors.blue,
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Container(
-                    height: kToolbarHeight,
-                    padding: const EdgeInsets.only(
-                      left: 16.0,
-                      right: 16.0,
-                      bottom: 8.0,
-                    ),
-                    child: Center(
-                      child: TextField(
-                        cursorColor: Colors.white,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(
-                            Icons.search,
-                            color: Colors.white,
-                          ),
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                            ),
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                            ),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                            ),
-                          ),
-                          prefixIconConstraints: BoxConstraints.tightFor(),
-                          hintText: "What are you eating?",
-                          // contentPadding: const EdgeInsets.all(0.0),
-                          fillColor: Colors.white,
-                          hintStyle: TextStyle(
-                            color: Colors.white.withOpacity(0.5),
-                          ),
-                        ),
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            AppBarRandomBeerBody(),
+            AppBarPairedBeersBody(),
           ],
         ),
         preferredSize: Size(MediaQuery.of(context).size.width, kToolbarHeight),
@@ -161,6 +96,140 @@ class _MainComponentState extends State<MainComponent>
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class AppBarPairedBeersBody extends StatefulWidget {
+  const AppBarPairedBeersBody({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _AppBarPairedBeersBodyState createState() => _AppBarPairedBeersBodyState();
+}
+
+class _AppBarPairedBeersBodyState extends State<AppBarPairedBeersBody> {
+  var _textController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.blue,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Container(
+            height: kToolbarHeight,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 16.0,
+                      right: 8.0,
+                      bottom: 8.0,
+                    ),
+                    child: TextField(
+                      controller: _textController,
+                      cursorColor: Colors.white,
+                      decoration: InputDecoration(
+                        // contentPadding: EdgeInsets.only(top: 8.0),
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Icon(
+                            Icons.search,
+                            color: Colors.white,
+                          ),
+                        ),
+                        prefixIconConstraints: BoxConstraints.tightFor(),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: IconButton(
+                            padding: EdgeInsets.zero,
+                            visualDensity: VisualDensity.compact,
+                            icon: Icon(
+                              Icons.close,
+                              color: Colors.white,
+                              size: 18.0,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _textController.text = "";
+                              });
+                              FocusScope.of(context).unfocus();
+                            },
+                          ),
+                        ),
+                        suffixIconConstraints: BoxConstraints.tightFor(),
+                        border: setBorder(),
+                        enabledBorder: setBorder(),
+                        focusedBorder: setBorder(),
+                        hintText: "What are you eating?",
+                        hintStyle: TextStyle(
+                          color: Colors.white.withOpacity(0.5),
+                        ),
+                      ),
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                      onSubmitted: (text) {
+                        print(text);
+                        Provider.beersBlocOf(context).getAllBeers(text, 1, 20);
+                      },
+                    ),
+                  ),
+                ),
+                Container(
+                  child: AspectRatio(
+                    aspectRatio: 1.0,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.filter_list,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {},
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  InputBorder setBorder() {
+    return UnderlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.white,
+      ),
+    );
+  }
+}
+
+class AppBarRandomBeerBody extends StatelessWidget {
+  const AppBarRandomBeerBody({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: AppBar(
+        title: Text("Beers Pairing"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () {
+              Provider.beersBlocOf(context).getRandomBeer();
+            },
+          ),
+        ],
       ),
     );
   }
