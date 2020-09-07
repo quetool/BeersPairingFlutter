@@ -1,4 +1,3 @@
-import 'package:beers_pairing/components/main_component.dart';
 import 'package:beers_pairing/models/beer.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +17,7 @@ class _BeerDetailsScreenState extends State<BeerDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.beer.name),
+        elevation: 0.0,
       ),
       body: Container(
         color: Colors.white,

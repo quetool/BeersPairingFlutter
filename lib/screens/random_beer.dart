@@ -18,15 +18,13 @@ class _RandomBeerBodyState extends State<RandomBeerBody> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (Provider.beersBlocOf(context).currentBeersState().currentRandomBeer ==
-        null) {
+    if (Provider.beersBlocOf(context).currentBeersState().currentRandomBeer == null) {
       Provider.beersBlocOf(context).getRandomBeer();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    print(widget.orientation);
     return StreamBuilder<BeersSate>(
       stream: Provider.beersBlocOf(context).streamBeersSate,
       builder: (BuildContext context, AsyncSnapshot<BeersSate> snapshot) {
@@ -47,8 +45,8 @@ class _RandomBeerBodyState extends State<RandomBeerBody> {
                   child: AspectRatio(
                     aspectRatio: 1.0,
                     child: CachedNetworkImage(
-                      imageUrl: snapshot.data.currentRandomBeer.imageUrl ??
-                          "https://via.placeholder.com/350?text=No+Image",
+                      imageUrl:
+                          snapshot.data.currentRandomBeer.imageUrl ?? "https://via.placeholder.com/350?text=No+Image",
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -74,9 +72,7 @@ class _RandomBeerBodyState extends State<RandomBeerBody> {
                                 ),
                               ),
                             ),
-                            AbvWidget(
-                                percentage:
-                                    snapshot.data.currentRandomBeer.abv),
+                            AbvWidget(percentage: snapshot.data.currentRandomBeer.abv),
                           ],
                         ),
                       ),
@@ -119,8 +115,7 @@ class AbvWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:
-          const EdgeInsets.only(left: 8.0, top: 4.0, right: 8.0, bottom: 4.0),
+      padding: const EdgeInsets.only(left: 8.0, top: 4.0, right: 8.0, bottom: 4.0),
       decoration: BoxDecoration(
         color: Colors.blue,
         borderRadius: BorderRadius.all(

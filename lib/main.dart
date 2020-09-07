@@ -1,7 +1,7 @@
 import 'package:beers_pairing/Themes/themes.dart';
 import 'package:beers_pairing/bloc/provider.dart';
-import 'package:beers_pairing/bloc/theme_bloc.dart';
 import 'package:beers_pairing/components/main_component.dart';
+import 'package:beers_pairing/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -23,17 +23,26 @@ class RootApp extends StatefulWidget {
 }
 
 class _RootAppState extends State<RootApp> {
-  ThemeData appTheme = AppThemes.blueTheme;
+  ThemeData _appTheme = AppThemes.lightTheme;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
+    _setHelperAndListenerTheme();
+  }
 
-    Provider.themeBlocOf(context).streamThemeState.listen((ThemeState data) {
+  Future<void> _setHelperAndListenerTheme() async {
+    await Helper().getCurrentTheme().then((theme) {
+      this._appTheme = (theme == Brightness.light.toString()) ? AppThemes.lightTheme : AppThemes.darkTheme;
+      Provider.themeBlocOf(context).switchTheme(this._appTheme);
+    });
+
+    Provider.themeBlocOf(context).streamThemeState.listen((ThemeData data) {
       if (!mounted) return;
       if (data == null) return;
       setState(() {
-        this.appTheme = data.theme;
+        this._appTheme = data;
+        Helper().saveCurrentTeheme(this._appTheme.brightness.toString());
       });
     });
   }
@@ -41,8 +50,7 @@ class _RootAppState extends State<RootApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: appTheme,
+      theme: _appTheme,
       home: MainComponent(),
     );
   }

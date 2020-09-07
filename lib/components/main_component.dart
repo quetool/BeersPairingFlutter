@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:beers_pairing/bloc/beers_bloc.dart';
 import 'package:beers_pairing/bloc/provider.dart';
-import 'package:beers_pairing/bloc/theme_bloc.dart';
 import 'package:beers_pairing/screens/paired_beers.dart';
 import 'package:beers_pairing/screens/random_beer.dart';
+import 'package:beers_pairing/themes/themes.dart';
 import 'package:flutter/material.dart';
 
 class MainComponent extends StatefulWidget {
@@ -19,20 +19,10 @@ class _MainComponentState extends State<MainComponent> with SingleTickerProvider
 
   List<Widget> _tabs = [
     Tab(
-      child: Text(
-        "Random Beer",
-        // style: TextStyle(
-        //   color: Colors.black,
-        // ),
-      ),
+      child: Text("Random Beer"),
     ),
     Tab(
-      child: Text(
-        "Paired Beers",
-        // style: TextStyle(
-        //   color: Colors.black,
-        // ),
-      ),
+      child: Text("Paired Beers"),
     ),
   ];
 
@@ -131,42 +121,17 @@ class _AppBarPairedBeersBodyState extends State<AppBarPairedBeersBody> {
       // color: Colors.blue,
       width: MediaQuery.of(context).size.width,
       child: AppBar(
-        title: TextField(
-          controller: _textController,
-          // cursorColor: Colors.white,
-          decoration: InputDecoration(
-            // prefixIcon: Padding(
-            //   padding: const EdgeInsets.only(right: 8.0),
-            //   child: Icon(
-            //     Icons.search,
-            //     // color: Colors.white,
-            //   ),
-            // ),
-            prefixIconConstraints: BoxConstraints.tightFor(),
-            // suffixIcon: Padding(
-            //   padding: const EdgeInsets.only(left: 8.0),
-            //   child: IconButton(
-            //     padding: EdgeInsets.zero,
-            //     visualDensity: VisualDensity.compact,
-            //     icon: Icon(
-            //       Icons.close,
-            //       size: 18.0,
-            //       // color: Colors.white,
-            //     ),
-            //     onPressed: () {
-            //       setState(() {
-            //         _textController.text = "";
-            //       });
-            //       FocusScope.of(context).unfocus();
-            //     },
-            //   ),
-            // ),
-            suffixIconConstraints: BoxConstraints.tightFor(),
-            hintText: "What are you eating?",
+        title: SizedBox(
+          height: 36.0,
+          child: TextField(
+            controller: _textController,
+            decoration: InputDecoration(
+              hintText: "What are you eating?",
+            ),
+            onSubmitted: (text) {
+              Provider.beersBlocOf(context).getAllBeers(text, 1, 20);
+            },
           ),
-          onSubmitted: (text) {
-            Provider.beersBlocOf(context).getAllBeers(text, 1, 20);
-          },
         ),
         actions: <Widget>[
           StreamBuilder<BeersSate>(
@@ -188,14 +153,6 @@ class _AppBarPairedBeersBodyState extends State<AppBarPairedBeersBody> {
       ),
     );
   }
-
-  // InputBorder setBorder() {
-  //   return UnderlineInputBorder(
-  //     borderSide: BorderSide(
-  //       color: Colors.white,
-  //     ),
-  //   );
-  // }
 }
 
 class DefaultAppBar extends StatelessWidget {
@@ -203,26 +160,31 @@ class DefaultAppBar extends StatelessWidget {
     Key key,
     this.title = "",
     this.actions,
-    // this.color,
   }) : super(key: key);
 
   final String title;
   final List<Widget> actions;
-  // final Color color;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: AppBar(
-        leading: StreamBuilder<ThemeState>(
+        leading: StreamBuilder<ThemeData>(
           stream: Provider.themeBlocOf(context).streamThemeState,
-          initialData: ThemeState(),
-          builder: (BuildContext context, AsyncSnapshot<ThemeState> snapshot) {
+          builder: (BuildContext context, AsyncSnapshot<ThemeData> snapshot) {
+            if (!snapshot.hasData) {
+              return Container(
+                width: 0.0,
+                height: 0.0,
+              );
+            }
             return IconButton(
-              icon: Icon(snapshot.data.icon), // Icon(Icons.wb_sunny)
+              icon: (snapshot.data.brightness == Brightness.dark) ? Icon(Icons.wb_sunny) : Icon(Icons.brightness_3),
               onPressed: () {
-                Provider.themeBlocOf(context).switchTheme();
+                var appTheme =
+                    (snapshot.data.brightness == Brightness.light) ? AppThemes.darkTheme : AppThemes.lightTheme;
+                Provider.themeBlocOf(context).switchTheme(appTheme);
               },
             );
           },

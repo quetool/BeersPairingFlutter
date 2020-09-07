@@ -13,7 +13,7 @@ class BeersSate {
 }
 
 class BeersBloc extends Object {
-  final apiClient = ApiClient();
+  final _apiClient = ApiClient();
 
   final _beersState = BehaviorSubject<BeersSate>();
   Stream<BeersSate> get streamBeersSate => _beersState.stream;
@@ -31,8 +31,8 @@ class BeersBloc extends Object {
     currentState.error = null;
     sinkBeersSate(currentState);
 
-    apiClient.getMeRandomBeer().then(
-          (response) => apiClient.responseHandler(response, (error, beers) {
+    _apiClient.getMeRandomBeer().then(
+          (response) => _apiClient.responseHandler(response, (error, beers) {
             currentState.currentRandomBeer = beers.first;
             currentState.error = error;
             currentState.loadingRandomBeer = false;
@@ -42,8 +42,8 @@ class BeersBloc extends Object {
   }
 
   void getBeerDetails(int beerId) {
-    apiClient.getBeerDetails(beerId).then(
-          (response) => apiClient.responseHandler(response, (error, beers) {
+    _apiClient.getBeerDetails(beerId).then(
+          (response) => _apiClient.responseHandler(response, (error, beers) {
             //
           }),
         );
@@ -55,8 +55,8 @@ class BeersBloc extends Object {
     currentState.error = null;
     sinkBeersSate(currentState);
 
-    apiClient.getAllBeers(byFood, fromPage, perPage).then(
-          (response) => apiClient.responseHandler(response, (error, beers) {
+    _apiClient.getAllBeers(byFood, fromPage, perPage).then(
+          (response) => _apiClient.responseHandler(response, (error, beers) {
             print(beers);
             currentState.currentPairingList = beers;
             currentState.error = error;
