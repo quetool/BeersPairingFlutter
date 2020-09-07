@@ -65,65 +65,77 @@ class PairedBeerCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Container(
-        height: (MediaQuery.of(context).size.width / 3),
-        padding: const EdgeInsets.only(bottom: 8.0, top: 8.0, right: 8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            AspectRatio(
-              aspectRatio: 1.0,
-              child: Container(
-                padding: const EdgeInsets.all(8.0),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    CachedNetworkImage(
-                      imageUrl: beer.imageUrl ?? "https://via.placeholder.com/350?text=No+Image",
-                      fit: BoxFit.contain,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        AbvWidget(percentage: beer.abv),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 4.0),
-                      child: Text(
-                        beer.name,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15.0,
+      child: InkWell(
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute<void>(builder: (BuildContext context) {
+            return BeerDetailsScreen(
+              beer: this.beer,
+            );
+          }),
+        ),
+        child: Container(
+          height: (MediaQuery.of(context).size.width / 3),
+          padding: const EdgeInsets.only(bottom: 8.0, top: 8.0, right: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              AspectRatio(
+                aspectRatio: 1.0,
+                child: Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: <Widget>[
+                      Hero(
+                        tag: this.beer.id,
+                        child: CachedNetworkImage(
+                          imageUrl: beer.imageUrl ?? "https://via.placeholder.com/350?text=No+Image",
+                          fit: BoxFit.contain,
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        beer.description,
-                        overflow: TextOverflow.fade,
-                        style: TextStyle(
-                          fontSize: 14.0,
-                        ),
-                      ),
-                    ),
-                  ],
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          AbvWidget(percentage: beer.abv),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 4.0),
+                        child: Text(
+                          beer.name,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15.0,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          beer.description,
+                          overflow: TextOverflow.fade,
+                          style: TextStyle(
+                            fontSize: 14.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
