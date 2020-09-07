@@ -8,6 +8,7 @@ class BeersSate {
   bool loadingPairingList = false;
   Beer currentRandomBeer;
   List<Beer> currentPairingList = List();
+  bool ascendingSort = false;
   ApiError error;
 }
 
@@ -63,6 +64,17 @@ class BeersBloc extends Object {
             sinkBeersSate(currentState);
           }),
         );
+  }
+
+  void sortBeers() {
+    var currentState = currentBeersState();
+    currentState.ascendingSort = !currentState.ascendingSort;
+    if (currentState.ascendingSort) {
+      currentState.currentPairingList.sort((a, b) => a.abv.abs().compareTo(b.abv.abs()));
+    } else {
+      currentState.currentPairingList.sort((b, a) => a.abv.abs().compareTo(b.abv.abs()));
+    }
+    sinkBeersSate(currentState);
   }
 
   void dispose() {

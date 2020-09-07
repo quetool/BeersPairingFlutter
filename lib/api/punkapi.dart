@@ -30,7 +30,7 @@ class ApiClient {
     return http.get(request);
   }
 
-  responseHandler(
+  void responseHandler(
       http.Response response, Function(ApiError error, List<Beer>) completion) {
     if (response.statusCode == 200) {
       try {
