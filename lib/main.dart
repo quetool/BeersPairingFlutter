@@ -2,7 +2,9 @@ import 'package:beers_pairing/Themes/themes.dart';
 import 'package:beers_pairing/bloc/provider.dart';
 import 'package:beers_pairing/components/main_component.dart';
 import 'package:beers_pairing/helpers/helpers.dart';
+import 'package:beers_pairing/localization/app_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(MyApp());
@@ -50,6 +52,22 @@ class _RootAppState extends State<RootApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        BeersPairingLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale(SupportedLanguages.english, ''),
+        Locale(SupportedLanguages.spanish, ''),
+      ],
+      localeResolutionCallback: (locale, supportedLocales) {
+        print("${locale.languageCode} - ${locale.countryCode}");
+        Locale appLocale = supportedLocales.firstWhere(
+            (supported) => supported.languageCode.toLowerCase() == locale.languageCode.toLowerCase(),
+            orElse: () => null);
+        return appLocale ?? supportedLocales.first;
+      },
       theme: _appTheme,
       home: MainComponent(),
     );

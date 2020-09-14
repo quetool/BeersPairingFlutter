@@ -57,7 +57,6 @@ class BeersBloc extends Object {
 
     _apiClient.getAllBeers(byFood, fromPage, perPage).then(
           (response) => _apiClient.responseHandler(response, (error, beers) {
-            print(beers);
             currentState.currentPairingList = beers;
             currentState.error = error;
             currentState.loadingPairingList = false;

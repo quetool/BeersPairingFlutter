@@ -1,5 +1,6 @@
 import 'package:beers_pairing/bloc/beers_bloc.dart';
 import 'package:beers_pairing/bloc/provider.dart';
+import 'package:beers_pairing/components/custom_widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -100,35 +101,6 @@ class _RandomBeerBodyState extends State<RandomBeerBody> {
           ),
         );
       },
-    );
-  }
-}
-
-class AbvWidget extends StatelessWidget {
-  const AbvWidget({
-    Key key,
-    @required this.percentage,
-  }) : super(key: key);
-
-  final double percentage;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(left: 8.0, top: 4.0, right: 8.0, bottom: 4.0),
-      decoration: BoxDecoration(
-        color: Colors.blue,
-        borderRadius: BorderRadius.all(
-          Radius.circular(12.0),
-        ),
-      ),
-      child: Text(
-        "$percentage%",
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 12.0,
-        ),
-      ),
     );
   }
 }

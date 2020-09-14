@@ -47,6 +47,9 @@ class AppThemes {
     cardTheme: CardTheme(
       elevation: 3.0,
     ),
+    appBarTheme: AppBarTheme(
+      elevation: 0.0,
+    ),
   );
 
   static var lightTheme = ThemeData.light().copyWith(
@@ -74,6 +77,9 @@ class AppThemes {
     cardTheme: CardTheme(
       elevation: 3.0,
       color: Colors.white,
+    ),
+    appBarTheme: AppBarTheme(
+      elevation: 0.0,
     ),
   );
 }
