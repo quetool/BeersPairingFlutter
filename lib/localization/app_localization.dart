@@ -4,31 +4,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class SupportedLanguages {
-  static String english = "en";
-  static String spanish = "es";
+  static String english = 'en';
+  static String spanish = 'es';
 }
 
 class TranslationsKeys {
-  static String appTitle = "app_title";
-  static String randomBeerTabTitle = "random_beer_tab_title";
-  static String pairedBeersTabTitle = "paired_beers_tab_title";
+  static String appTitle = 'app_title';
+  static String randomBeerTabTitle = 'random_beer_tab_title';
+  static String pairedBeersTabTitle = 'paired_beers_tab_title';
+  static String eatingQuestion = 'eating_question';
 }
 
 class BeersPairingLocalizations {
-  final Locale appLocale;
-
   BeersPairingLocalizations(this.appLocale);
 
+  final Locale appLocale;
+
   static BeersPairingLocalizations of(BuildContext context) {
-    return Localizations.of<BeersPairingLocalizations>(context, BeersPairingLocalizations);
+    return Localizations.of<BeersPairingLocalizations>(
+        context, BeersPairingLocalizations);
   }
 
-  static const LocalizationsDelegate<BeersPairingLocalizations> delegate = _BeersPairingLocalizationsDelegate();
+  static const LocalizationsDelegate<BeersPairingLocalizations> delegate =
+      _BeersPairingLocalizationsDelegate();
 
   Map<String, String> _localizedStrings;
 
   Future<bool> load() async {
-    String jsonString = await rootBundle.loadString('assets/language/${appLocale.languageCode}.json');
+    var jsonString = await rootBundle
+        .loadString('assets/language/${appLocale.languageCode}.json');
     Map<String, dynamic> jsonMap = json.decode(jsonString);
     _localizedStrings = jsonMap.map((key, value) {
       return MapEntry(key, value.toString());
@@ -41,7 +45,8 @@ class BeersPairingLocalizations {
   }
 }
 
-class _BeersPairingLocalizationsDelegate extends LocalizationsDelegate<BeersPairingLocalizations> {
+class _BeersPairingLocalizationsDelegate
+    extends LocalizationsDelegate<BeersPairingLocalizations> {
   const _BeersPairingLocalizationsDelegate();
 
   @override
@@ -54,7 +59,7 @@ class _BeersPairingLocalizationsDelegate extends LocalizationsDelegate<BeersPair
 
   @override
   Future<BeersPairingLocalizations> load(Locale locale) async {
-    BeersPairingLocalizations localizations = new BeersPairingLocalizations(locale);
+    var localizations = BeersPairingLocalizations(locale);
     await localizations.load();
     return localizations;
   }

@@ -16,7 +16,7 @@ class _PairedBeersBodyState extends State<PairedBeersBody> {
       stream: Provider.beersBlocOf(context).streamBeersSate,
       builder: (BuildContext context, AsyncSnapshot<BeersSate> snapshot) {
         if (!snapshot.hasData || snapshot.data.loadingPairingList) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }

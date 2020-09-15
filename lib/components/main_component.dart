@@ -10,7 +10,8 @@ class MainComponent extends StatefulWidget {
   _MainComponentState createState() => _MainComponentState();
 }
 
-class _MainComponentState extends State<MainComponent> with SingleTickerProviderStateMixin {
+class _MainComponentState extends State<MainComponent>
+    with SingleTickerProviderStateMixin {
   ScrollController _appBarController;
   TabController _tabController;
 
@@ -22,10 +23,11 @@ class _MainComponentState extends State<MainComponent> with SingleTickerProvider
     _tabController.addListener(() {
       if (_tabController.indexIsChanging && _tabController.index == 1) {
         _appBarController.animateTo(MediaQuery.of(context).size.width,
-            duration: Duration(milliseconds: 200), curve: Curves.linear);
+            duration: const Duration(milliseconds: 200), curve: Curves.linear);
       }
       if (_tabController.indexIsChanging && _tabController.index == 0) {
-        _appBarController.animateTo(0.0, duration: Duration(milliseconds: 200), curve: Curves.linear);
+        _appBarController.animateTo(0.0,
+            duration: const Duration(milliseconds: 200), curve: Curves.linear);
       }
     });
   }
@@ -44,10 +46,11 @@ class _MainComponentState extends State<MainComponent> with SingleTickerProvider
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
           controller: _appBarController,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           children: <Widget>[
             DefaultAppBar(
-              title: BeersPairingLocalizations.of(context).translate(TranslationsKeys.appTitle),
+              title: BeersPairingLocalizations.of(context)
+                  .translate(TranslationsKeys.appTitle),
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.refresh),
@@ -57,31 +60,32 @@ class _MainComponentState extends State<MainComponent> with SingleTickerProvider
                 ),
               ],
             ),
-            AppBarPairedBeersBody(),
+            const AppBarPairedBeersBody(),
           ],
         ),
         preferredSize: Size(MediaQuery.of(context).size.width, kToolbarHeight),
       ),
       body: OrientationBuilder(
         builder: (BuildContext context, Orientation orientation) {
-          // print(orientation);
           return Column(
             children: <Widget>[
               TabBar(
                 controller: _tabController,
                 tabs: [
                   Tab(
-                    child: Text(BeersPairingLocalizations.of(context).translate(TranslationsKeys.randomBeerTabTitle)),
+                    child: Text(BeersPairingLocalizations.of(context)
+                        .translate(TranslationsKeys.randomBeerTabTitle)),
                   ),
                   Tab(
-                    child: Text(BeersPairingLocalizations.of(context).translate(TranslationsKeys.pairedBeersTabTitle)),
+                    child: Text(BeersPairingLocalizations.of(context)
+                        .translate(TranslationsKeys.pairedBeersTabTitle)),
                   ),
                 ],
               ),
               Expanded(
                 child: TabBarView(
                   controller: _tabController,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   children: [
                     RandomBeerBody(
                       orientation: orientation,

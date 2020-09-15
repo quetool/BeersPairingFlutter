@@ -13,16 +13,17 @@ class AbvWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 8.0, top: 4.0, right: 8.0, bottom: 4.0),
+      padding:
+          const EdgeInsets.only(left: 8.0, top: 4.0, right: 8.0, bottom: 4.0),
       decoration: BoxDecoration(
         color: Colors.blue,
-        borderRadius: BorderRadius.all(
+        borderRadius: const BorderRadius.all(
           Radius.circular(12.0),
         ),
       ),
       child: Text(
-        "$percentage%",
-        style: TextStyle(
+        '$percentage%',
+        style: const TextStyle(
           color: Colors.white,
           fontSize: 12.0,
         ),
@@ -45,7 +46,7 @@ class PairedBeerCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () => this.onTap(beer),
+        onTap: () => onTap(beer),
         child: Container(
           height: (MediaQuery.of(context).size.width / 3),
           padding: const EdgeInsets.only(bottom: 8.0, top: 8.0, right: 8.0),
@@ -61,9 +62,10 @@ class PairedBeerCell extends StatelessWidget {
                     fit: StackFit.expand,
                     children: <Widget>[
                       Hero(
-                        tag: this.beer.id,
+                        tag: beer.id,
                         child: CachedNetworkImage(
-                          imageUrl: beer.imageUrl ?? "https://via.placeholder.com/350?text=No+Image",
+                          imageUrl: beer.imageUrl ??
+                              'https://via.placeholder.com/350?text=No+Image',
                           fit: BoxFit.contain,
                         ),
                       ),
@@ -88,7 +90,7 @@ class PairedBeerCell extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 4.0),
                         child: Text(
                           beer.name,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15.0,
                           ),
@@ -98,7 +100,7 @@ class PairedBeerCell extends StatelessWidget {
                         child: Text(
                           beer.description,
                           overflow: TextOverflow.fade,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14.0,
                           ),
                         ),

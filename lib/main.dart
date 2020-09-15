@@ -35,16 +35,18 @@ class _RootAppState extends State<RootApp> {
 
   Future<void> _setHelperAndListenerTheme() async {
     await Helper().getCurrentTheme().then((theme) {
-      this._appTheme = (theme == Brightness.light.toString()) ? AppThemes.lightTheme : AppThemes.darkTheme;
-      Provider.themeBlocOf(context).switchTheme(this._appTheme);
+      _appTheme = (theme == Brightness.light.toString())
+          ? AppThemes.lightTheme
+          : AppThemes.darkTheme;
+      Provider.themeBlocOf(context).switchTheme(_appTheme);
     });
 
     Provider.themeBlocOf(context).streamThemeState.listen((ThemeData data) {
       if (!mounted) return;
       if (data == null) return;
       setState(() {
-        this._appTheme = data;
-        Helper().saveCurrentTeheme(this._appTheme.brightness.toString());
+        _appTheme = data;
+        Helper().saveCurrentTeheme(_appTheme.brightness.toString());
       });
     });
   }
@@ -62,9 +64,11 @@ class _RootAppState extends State<RootApp> {
         Locale(SupportedLanguages.spanish, ''),
       ],
       localeResolutionCallback: (locale, supportedLocales) {
-        print("${locale.languageCode} - ${locale.countryCode}");
-        Locale appLocale = supportedLocales.firstWhere(
-            (supported) => supported.languageCode.toLowerCase() == locale.languageCode.toLowerCase(),
+        print('${locale.languageCode} - ${locale.countryCode}');
+        var appLocale = supportedLocales.firstWhere(
+            (supported) =>
+                supported.languageCode.toLowerCase() ==
+                locale.languageCode.toLowerCase(),
             orElse: () => null);
         return appLocale ?? supportedLocales.first;
       },

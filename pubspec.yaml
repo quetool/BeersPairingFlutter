@@ -18,13 +18,12 @@ dependencies:
   rxdart: ^0.24.1
   cached_network_image: ^2.2.0+1
   shared_preferences: ^0.5.10
-  # intl: ^0.16.1
+  very_good_analysis: ^1.0.2
+  pedantic: ^1.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  # json_serializable:
-  # build_runner:
 
 flutter:
   uses-material-design: true

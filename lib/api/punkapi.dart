@@ -5,22 +5,21 @@ import 'package:beers_pairing/models/error.dart';
 import 'package:http/http.dart' as http;
 
 class ApiClient {
+  factory ApiClient() {
+    return _singleton;
+  }
+  ApiClient._internal();
+
   String _rootApi;
   String _allBeers;
   String _randomBeer;
 
-  static final ApiClient _singleton = new ApiClient._internal().._init();
+  static final ApiClient _singleton = ApiClient._internal().._init();
 
-  factory ApiClient() {
-    return _singleton;
-  }
-
-  ApiClient._internal();
-
-  _init() {
-    this._rootApi = "https://api.punkapi.com/v2";
-    this._allBeers = "/beers";
-    this._randomBeer = "/random";
+  void _init() {
+    _rootApi = 'https://api.punkapi.com/v2';
+    _allBeers = '/beers';
+    _randomBeer = '/random';
   }
 
   Future<http.Response> getMeRandomBeer() {
@@ -28,14 +27,14 @@ class ApiClient {
   }
 
   Future<http.Response> getBeerDetails(int beerId) {
-    return http.get(_rootApi + _allBeers + "/$beerId");
+    return http.get('$_rootApi$_allBeers$beerId');
   }
 
   Future<http.Response> getAllBeers(String byFood, int fromPage, int perPage) {
-    var parameters = "?page=$fromPage&per_page=$perPage";
-    if (byFood != "") {
-      var food = byFood.trim().replaceAll(" ", "_");
-      parameters += "&food=$food";
+    var parameters = '?page=$fromPage&per_page=$perPage';
+    if (byFood != '') {
+      var food = byFood.trim().replaceAll(' ', '_');
+      parameters += '&food=$food';
     }
     return http.get(_rootApi + _allBeers + parameters);
   }
@@ -44,11 +43,13 @@ class ApiClient {
     return http.get(request);
   }
 
-  void responseHandler(http.Response response, Function(ApiError error, List<Beer>) completion) {
+  void responseHandler(
+      http.Response response, Function(ApiError error, List<Beer>) completion) {
     if (response.statusCode == 200) {
       try {
         List<dynamic> jsonArray = json.decode(response.body);
-        List<Beer> sortedList = jsonArray.map((e) => Beer.fromJson(e)).toList()..sort((a, b) => a.abv.compareTo(b.abv));
+        var sortedList = jsonArray.map((e) => Beer.fromJson(e)).toList()
+          ..sort((a, b) => a.abv.compareTo(b.abv));
         completion(null, sortedList);
       } catch (e) {
         var error = ApiError()

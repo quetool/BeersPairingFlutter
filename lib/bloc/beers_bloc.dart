@@ -7,7 +7,7 @@ class BeersSate {
   bool loadingRandomBeer = false;
   bool loadingPairingList = false;
   Beer currentRandomBeer;
-  List<Beer> currentPairingList = List();
+  List<Beer> currentPairingList = [];
   bool ascendingSort = false;
   ApiError error;
 }
@@ -20,22 +20,23 @@ class BeersBloc extends Object {
   Function(BeersSate) get sinkBeersSate => _beersState.sink.add;
 
   BeersSate currentBeersState() {
-    BeersSate currentState = _beersState.stream.value;
-    if (currentState == null) currentState = BeersSate();
+    var currentState = _beersState.stream.value;
+    currentState ??= BeersSate();
     return currentState;
   }
 
   void getRandomBeer() {
-    var currentState = currentBeersState();
-    currentState.loadingRandomBeer = true;
-    currentState.error = null;
+    var currentState = currentBeersState()
+      ..loadingRandomBeer = true
+      ..error = null;
     sinkBeersSate(currentState);
 
     _apiClient.getMeRandomBeer().then(
           (response) => _apiClient.responseHandler(response, (error, beers) {
-            currentState.currentRandomBeer = beers.first;
-            currentState.error = error;
-            currentState.loadingRandomBeer = false;
+            currentState
+              ..currentRandomBeer = beers.first
+              ..error = error
+              ..loadingRandomBeer = false;
             sinkBeersSate(currentState);
           }),
         );
@@ -50,16 +51,17 @@ class BeersBloc extends Object {
   }
 
   void getAllBeers(String byFood, int fromPage, int perPage) {
-    var currentState = currentBeersState();
-    currentState.loadingPairingList = true;
-    currentState.error = null;
+    var currentState = currentBeersState()
+      ..loadingPairingList = true
+      ..error = null;
     sinkBeersSate(currentState);
 
     _apiClient.getAllBeers(byFood, fromPage, perPage).then(
           (response) => _apiClient.responseHandler(response, (error, beers) {
-            currentState.currentPairingList = beers;
-            currentState.error = error;
-            currentState.loadingPairingList = false;
+            currentState
+              ..currentPairingList = beers
+              ..error = error
+              ..loadingPairingList = false;
             sinkBeersSate(currentState);
           }),
         );
@@ -69,9 +71,11 @@ class BeersBloc extends Object {
     var currentState = currentBeersState();
     currentState.ascendingSort = !currentState.ascendingSort;
     if (currentState.ascendingSort) {
-      currentState.currentPairingList.sort((a, b) => a.abv.abs().compareTo(b.abv.abs()));
+      currentState.currentPairingList
+          .sort((a, b) => a.abv.abs().compareTo(b.abv.abs()));
     } else {
-      currentState.currentPairingList.sort((b, a) => a.abv.abs().compareTo(b.abv.abs()));
+      currentState.currentPairingList
+          .sort((b, a) => a.abv.abs().compareTo(b.abv.abs()));
     }
     sinkBeersSate(currentState);
   }

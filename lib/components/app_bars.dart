@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:beers_pairing/bloc/beers_bloc.dart';
 import 'package:beers_pairing/bloc/provider.dart';
+import 'package:beers_pairing/localization/app_localization.dart';
 import 'package:beers_pairing/themes/themes.dart';
 import 'package:flutter/material.dart';
 
@@ -15,12 +16,11 @@ class AppBarPairedBeersBody extends StatefulWidget {
 }
 
 class _AppBarPairedBeersBodyState extends State<AppBarPairedBeersBody> {
-  var _textController = TextEditingController();
+  final _textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: Colors.blue,
       width: MediaQuery.of(context).size.width,
       child: AppBar(
         title: SizedBox(
@@ -28,7 +28,8 @@ class _AppBarPairedBeersBodyState extends State<AppBarPairedBeersBody> {
           child: TextField(
             controller: _textController,
             decoration: InputDecoration(
-              hintText: "What are you eating?",
+              hintText: BeersPairingLocalizations.of(context)
+                  .translate(TranslationsKeys.eatingQuestion),
             ),
             onSubmitted: (text) {
               Provider.beersBlocOf(context).getAllBeers(text, 1, 20);
@@ -60,7 +61,7 @@ class _AppBarPairedBeersBodyState extends State<AppBarPairedBeersBody> {
 class DefaultAppBar extends StatelessWidget {
   const DefaultAppBar({
     Key key,
-    this.title = "",
+    this.title = '',
     this.actions,
   }) : super(key: key);
 
@@ -82,17 +83,20 @@ class DefaultAppBar extends StatelessWidget {
               );
             }
             return IconButton(
-              icon: (snapshot.data.brightness == Brightness.dark) ? Icon(Icons.wb_sunny) : Icon(Icons.brightness_3),
+              icon: (snapshot.data.brightness == Brightness.dark)
+                  ? Icon(Icons.wb_sunny)
+                  : Icon(Icons.brightness_3),
               onPressed: () {
-                var appTheme =
-                    (snapshot.data.brightness == Brightness.light) ? AppThemes.darkTheme : AppThemes.lightTheme;
+                var appTheme = (snapshot.data.brightness == Brightness.light)
+                    ? AppThemes.darkTheme
+                    : AppThemes.lightTheme;
                 Provider.themeBlocOf(context).switchTheme(appTheme);
               },
             );
           },
         ),
-        title: Text(this.title),
-        actions: this.actions,
+        title: Text(title),
+        actions: actions,
       ),
     );
   }

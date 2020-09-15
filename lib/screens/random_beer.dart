@@ -5,8 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class RandomBeerBody extends StatefulWidget {
-  RandomBeerBody({
-    Key key,
+  const RandomBeerBody({
     this.orientation,
   });
   final Orientation orientation;
@@ -19,7 +18,8 @@ class _RandomBeerBodyState extends State<RandomBeerBody> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (Provider.beersBlocOf(context).currentBeersState().currentRandomBeer == null) {
+    if (Provider.beersBlocOf(context).currentBeersState().currentRandomBeer ==
+        null) {
       Provider.beersBlocOf(context).getRandomBeer();
     }
   }
@@ -30,7 +30,7 @@ class _RandomBeerBodyState extends State<RandomBeerBody> {
       stream: Provider.beersBlocOf(context).streamBeersSate,
       builder: (BuildContext context, AsyncSnapshot<BeersSate> snapshot) {
         if (!snapshot.hasData || snapshot.data.loadingRandomBeer) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -46,8 +46,8 @@ class _RandomBeerBodyState extends State<RandomBeerBody> {
                   child: AspectRatio(
                     aspectRatio: 1.0,
                     child: CachedNetworkImage(
-                      imageUrl:
-                          snapshot.data.currentRandomBeer.imageUrl ?? "https://via.placeholder.com/350?text=No+Image",
+                      imageUrl: snapshot.data.currentRandomBeer.imageUrl ??
+                          'https://via.placeholder.com/350?text=No+Image',
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -66,14 +66,16 @@ class _RandomBeerBodyState extends State<RandomBeerBody> {
                                 margin: const EdgeInsets.only(right: 8.0),
                                 child: Text(
                                   snapshot.data.currentRandomBeer.name,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 20.0,
                                   ),
                                 ),
                               ),
                             ),
-                            AbvWidget(percentage: snapshot.data.currentRandomBeer.abv),
+                            AbvWidget(
+                                percentage:
+                                    snapshot.data.currentRandomBeer.abv),
                           ],
                         ),
                       ),
@@ -81,14 +83,14 @@ class _RandomBeerBodyState extends State<RandomBeerBody> {
                         margin: const EdgeInsets.only(top: 12.0, bottom: 12.0),
                         child: Text(
                           snapshot.data.currentRandomBeer.description,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 15.0,
                           ),
                         ),
                       ),
                       Text(
                         snapshot.data.currentRandomBeer.tagline,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14.0,
                           color: Colors.grey,
                         ),

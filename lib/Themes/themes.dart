@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MaterialColorsExtension extends MaterialColor {
-  MaterialColorsExtension(int primary, Map<int, Color> swatch) : super(primary, swatch);
+  MaterialColorsExtension(int primary, Map<int, Color> swatch)
+      : super(primary, swatch);
 
   static const MaterialColor white = MaterialColor(
     _whitePrimaryValue,
@@ -23,7 +24,7 @@ class MaterialColorsExtension extends MaterialColor {
 
 class AppThemes {
   static var darkTheme = ThemeData.dark().copyWith(
-    tabBarTheme: TabBarTheme(
+    tabBarTheme: const TabBarTheme(
       indicator: UnderlineTabIndicator(
         borderSide: BorderSide(
           color: Colors.white,
@@ -37,23 +38,23 @@ class AppThemes {
       filled: true,
       fillColor: Colors.white.withOpacity(0.5),
       contentPadding: const EdgeInsets.only(left: 12.0, right: 12.0),
-      border: OutlineInputBorder(
+      border: const OutlineInputBorder(
         borderSide: BorderSide.none,
         borderRadius: BorderRadius.all(
           Radius.circular(20.0),
         ),
       ),
     ),
-    cardTheme: CardTheme(
+    cardTheme: const CardTheme(
       elevation: 3.0,
     ),
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       elevation: 0.0,
     ),
   );
 
   static var lightTheme = ThemeData.light().copyWith(
-    tabBarTheme: TabBarTheme(
+    tabBarTheme: const TabBarTheme(
       indicator: UnderlineTabIndicator(
         borderSide: BorderSide(
           color: Colors.blue,
@@ -67,18 +68,18 @@ class AppThemes {
       filled: true,
       fillColor: Colors.white.withOpacity(0.5),
       contentPadding: const EdgeInsets.only(left: 12.0, right: 12.0),
-      border: OutlineInputBorder(
+      border: const OutlineInputBorder(
         borderSide: BorderSide.none,
         borderRadius: BorderRadius.all(
           Radius.circular(20.0),
         ),
       ),
     ),
-    cardTheme: CardTheme(
+    cardTheme: const CardTheme(
       elevation: 3.0,
       color: Colors.white,
     ),
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       elevation: 0.0,
     ),
   );

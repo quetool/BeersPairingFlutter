@@ -4,11 +4,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class BeerDetailsScreen extends StatefulWidget {
-  final Beer beer;
   const BeerDetailsScreen({
-    Key key,
     this.beer,
   });
+
+  final Beer beer;
+
   @override
   _BeerDetailsScreenState createState() => _BeerDetailsScreenState();
 }
@@ -31,9 +32,10 @@ class _BeerDetailsScreenState extends State<BeerDetailsScreen> {
                 child: Container(
                   padding: const EdgeInsets.all(8.0),
                   child: Hero(
-                    tag: this.widget.beer.id,
+                    tag: widget.beer.id,
                     child: CachedNetworkImage(
-                      imageUrl: this.widget.beer.imageUrl ?? "https://via.placeholder.com/350?text=No+Image",
+                      imageUrl: widget.beer.imageUrl ??
+                          'https://via.placeholder.com/350?text=No+Image',
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -52,30 +54,30 @@ class _BeerDetailsScreenState extends State<BeerDetailsScreen> {
                             child: Container(
                               margin: const EdgeInsets.only(right: 8.0),
                               child: Text(
-                                this.widget.beer.name,
-                                style: TextStyle(
+                                widget.beer.name,
+                                style: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 20.0,
                                 ),
                               ),
                             ),
                           ),
-                          AbvWidget(percentage: this.widget.beer.abv),
+                          AbvWidget(percentage: widget.beer.abv),
                         ],
                       ),
                     ),
                     Container(
                       margin: const EdgeInsets.only(top: 12.0, bottom: 12.0),
                       child: Text(
-                        this.widget.beer.description,
-                        style: TextStyle(
+                        widget.beer.description,
+                        style: const TextStyle(
                           fontSize: 15.0,
                         ),
                       ),
                     ),
                     Text(
-                      this.widget.beer.tagline,
-                      style: TextStyle(
+                      widget.beer.tagline,
+                      style: const TextStyle(
                         fontSize: 14.0,
                         color: Colors.grey,
                       ),
