@@ -23,31 +23,35 @@ class Beer {
       this.contributedBy});
 
   Beer.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    tagline = json['tagline'];
-    firstBrewed = json['first_brewed'];
-    description = json['description'];
-    imageUrl = json['image_url'];
-    abv = (json['abv'] ?? 0.0) * 1.0;
-    ibu = (json['ibu'] ?? 0.0) * 1.0;
-    targetFg = (json['target_fg'] ?? 0.0) * 1.0;
-    targetOg = (json['target_og'] ?? 0.0) * 1.0;
-    ebc = (json['ebc'] ?? 0.0) * 1.0;
-    srm = (json['srm'] ?? 0.0) * 1.0;
-    ph = (json['ph'] ?? 0.0) * 1.0;
-    attenuationLevel = (json['attenuation_level'] ?? 0.0) * 1.0;
-    volume = json['volume'] != null ? Volume.fromJson(json['volume']) : null;
+    id = json['id'] as int;
+    name = json['name'] as String;
+    tagline = json['tagline'] as String;
+    firstBrewed = json['first_brewed'] as String;
+    description = json['description'] as String;
+    imageUrl = json['image_url'] as String;
+    abv = ((json['abv'] ?? 0.0) * 1.0) as double;
+    ibu = ((json['ibu'] ?? 0.0) * 1.0) as double;
+    targetFg = ((json['target_fg'] ?? 0.0) * 1.0) as double;
+    targetOg = ((json['target_og'] ?? 0.0) * 1.0) as double;
+    ebc = ((json['ebc'] ?? 0.0) * 1.0) as double;
+    srm = ((json['srm'] ?? 0.0) * 1.0) as double;
+    ph = ((json['ph'] ?? 0.0) * 1.0) as double;
+    attenuationLevel = ((json['attenuation_level'] ?? 0.0) * 1.0) as double;
+    volume = json['volume'] != null
+        ? Volume.fromJson(json['volume'] as Map<String, dynamic>)
+        : null;
     boilVolume = json['boil_volume'] != null
-        ? Volume.fromJson(json['boil_volume'])
+        ? Volume.fromJson(json['boil_volume'] as Map<String, dynamic>)
         : null;
-    method = json['method'] != null ? Method.fromJson(json['method']) : null;
+    method = json['method'] != null
+        ? Method.fromJson(json['method'] as Map<String, dynamic>)
+        : null;
     ingredients = json['ingredients'] != null
-        ? Ingredients.fromJson(json['ingredients'])
+        ? Ingredients.fromJson(json['ingredients'] as Map<String, dynamic>)
         : null;
-    foodPairing = json['food_pairing'].cast<String>();
-    brewersTips = json['brewers_tips'];
-    contributedBy = json['contributed_by'];
+    foodPairing = json['food_pairing'].cast<String>() as List<String>;
+    brewersTips = json['brewers_tips'] as String;
+    contributedBy = json['contributed_by'] as String;
   }
 
   Map<String, dynamic> toJson() {
@@ -111,8 +115,8 @@ class Volume {
   Volume({this.value, this.unit});
 
   Volume.fromJson(Map<String, dynamic> json) {
-    value = json['value'];
-    unit = json['unit'];
+    value = json['value'] as int;
+    unit = json['unit'] as String;
   }
 
   int value;
@@ -132,14 +136,14 @@ class Method {
   Method.fromJson(Map<String, dynamic> json) {
     if (json['mash_temp'] != null) {
       mashTemp = <MashTemp>[];
-      json['mash_temp'].forEach((v) {
-        mashTemp.add(MashTemp.fromJson(v));
+      json['mash_temp'].forEach((dynamic v) {
+        mashTemp.add(MashTemp.fromJson(v as Map<String, dynamic>));
       });
     }
     fermentation = json['fermentation'] != null
-        ? Fermentation.fromJson(json['fermentation'])
+        ? Fermentation.fromJson(json['fermentation'] as Map<String, dynamic>)
         : null;
-    twist = json['twist'];
+    twist = json['twist'] as String;
   }
 
   List<MashTemp> mashTemp;
@@ -163,8 +167,10 @@ class MashTemp {
   MashTemp({this.temp, this.duration});
 
   MashTemp.fromJson(Map<String, dynamic> json) {
-    temp = json['temp'] != null ? Volume.fromJson(json['temp']) : null;
-    duration = json['duration'];
+    temp = json['temp'] != null
+        ? Volume.fromJson(json['temp'] as Map<String, dynamic>)
+        : null;
+    duration = json['duration'] as int;
   }
 
   Volume temp;
@@ -184,7 +190,9 @@ class Fermentation {
   Fermentation({this.temp});
 
   Fermentation.fromJson(Map<String, dynamic> json) {
-    temp = json['temp'] != null ? Volume.fromJson(json['temp']) : null;
+    temp = json['temp'] != null
+        ? Volume.fromJson(json['temp'] as Map<String, dynamic>)
+        : null;
   }
 
   Volume temp;
@@ -204,17 +212,17 @@ class Ingredients {
   Ingredients.fromJson(Map<String, dynamic> json) {
     if (json['malt'] != null) {
       malt = <Malt>[];
-      json['malt'].forEach((v) {
-        malt.add(Malt.fromJson(v));
+      json['malt'].forEach((dynamic v) {
+        malt.add(Malt.fromJson(v as Map<String, dynamic>));
       });
     }
     if (json['hops'] != null) {
       hops = <Hops>[];
-      json['hops'].forEach((v) {
-        hops.add(Hops.fromJson(v));
+      json['hops'].forEach((dynamic v) {
+        hops.add(Hops.fromJson(v as Map<String, dynamic>));
       });
     }
-    yeast = json['yeast'];
+    yeast = json['yeast'] as String;
   }
 
   List<Malt> malt;
@@ -238,8 +246,10 @@ class Malt {
   Malt({this.name, this.amount});
 
   Malt.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    amount = json['amount'] != null ? Amount.fromJson(json['amount']) : null;
+    name = json['name'] as String;
+    amount = json['amount'] != null
+        ? Amount.fromJson(json['amount'] as Map<String, dynamic>)
+        : null;
   }
 
   String name;
@@ -259,8 +269,8 @@ class Amount {
   Amount({this.value, this.unit});
 
   Amount.fromJson(Map<String, dynamic> json) {
-    value = (json['value'] * 1.0);
-    unit = json['unit'];
+    value = (json['value'] * 1.0) as double;
+    unit = json['unit'] as String;
   }
 
   double value;
@@ -278,10 +288,12 @@ class Hops {
   Hops({this.name, this.amount, this.add, this.attribute});
 
   Hops.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    amount = json['amount'] != null ? Amount.fromJson(json['amount']) : null;
-    add = json['add'];
-    attribute = json['attribute'];
+    name = json['name'] as String;
+    amount = json['amount'] != null
+        ? Amount.fromJson(json['amount'] as Map<String, dynamic>)
+        : null;
+    add = json['add'] as String;
+    attribute = json['attribute'] as String;
   }
 
   String name;

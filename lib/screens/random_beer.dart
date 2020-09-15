@@ -1,6 +1,7 @@
 import 'package:beers_pairing/bloc/beers_bloc.dart';
 import 'package:beers_pairing/bloc/provider.dart';
 import 'package:beers_pairing/components/custom_widgets.dart';
+import 'package:beers_pairing/localization/app_localization.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -29,10 +30,27 @@ class _RandomBeerBodyState extends State<RandomBeerBody> {
     return StreamBuilder<BeersSate>(
       stream: Provider.beersBlocOf(context).streamBeersSate,
       builder: (BuildContext context, AsyncSnapshot<BeersSate> snapshot) {
-        if (!snapshot.hasData || snapshot.data.loadingRandomBeer) {
+        if (!snapshot.hasData) {
+          return Container();
+        }
+        if (snapshot.data.loadingRandomBeer) {
           return const Center(
             child: CircularProgressIndicator(),
           );
+        }
+        if (snapshot.data.currentRandomBeer == null) {
+          if (snapshot.data.error != null) {
+            return Center(
+              child: Text(
+                BeersPairingLocalizations.of(context)
+                    .translate(snapshot.data.error.message),
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+            );
+          }
+          return Container();
         }
         return SingleChildScrollView(
           padding: const EdgeInsets.only(bottom: 20.0),

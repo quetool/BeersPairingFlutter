@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:beers_pairing/localization/app_localization.dart';
 import 'package:beers_pairing/models/beer.dart';
 import 'package:beers_pairing/models/error.dart';
 import 'package:http/http.dart' as http;
@@ -43,23 +44,28 @@ class ApiClient {
     return http.get(request);
   }
 
-  void responseHandler(
-      http.Response response, Function(ApiError error, List<Beer>) completion) {
+  void responseHandler(http.Response response,
+      Function(ApiError error, List<Beer> beers) completion) {
     if (response.statusCode == 200) {
       try {
-        List<dynamic> jsonArray = json.decode(response.body);
-        var sortedList = jsonArray.map((e) => Beer.fromJson(e)).toList()
-          ..sort((a, b) => a.abv.compareTo(b.abv));
+        var jsonArray = json.decode(response.body) as List;
+        var sortedList = jsonArray
+            .map((dynamic e) => Beer.fromJson(e as Map<String, dynamic>))
+            .toList()
+              ..sort((a, b) => a.abv.compareTo(b.abv));
         completion(null, sortedList);
       } catch (e) {
+        print(e);
         var error = ApiError()
-          ..message = "Couldn't serialize response"
+          ..message = TranslationsKeys.serializationError
           ..statusCode = response.statusCode
           ..error = e.toString();
         completion(error, null);
       }
     } else {
-      completion(ApiError.fromJson(json.decode(response.body)), null);
+      completion(
+          ApiError.fromJson(json.decode(response.body) as Map<String, dynamic>),
+          null);
     }
   }
 }

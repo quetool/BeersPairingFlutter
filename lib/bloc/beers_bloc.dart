@@ -34,7 +34,7 @@ class BeersBloc extends Object {
     _apiClient.getMeRandomBeer().then(
           (response) => _apiClient.responseHandler(response, (error, beers) {
             currentState
-              ..currentRandomBeer = beers.first
+              ..currentRandomBeer = (error == null) ? beers.first : null
               ..error = error
               ..loadingRandomBeer = false;
             sinkBeersSate(currentState);
@@ -42,13 +42,13 @@ class BeersBloc extends Object {
         );
   }
 
-  void getBeerDetails(int beerId) {
-    _apiClient.getBeerDetails(beerId).then(
-          (response) => _apiClient.responseHandler(response, (error, beers) {
-            //
-          }),
-        );
-  }
+  // void getBeerDetails(int beerId) {
+  //   _apiClient.getBeerDetails(beerId).then(
+  //         (response) => _apiClient.responseHandler(response, (error, beers) {
+  //           //
+  //         }),
+  //       );
+  // }
 
   void getAllBeers(String byFood, int fromPage, int perPage) {
     var currentState = currentBeersState()
@@ -59,7 +59,7 @@ class BeersBloc extends Object {
     _apiClient.getAllBeers(byFood, fromPage, perPage).then(
           (response) => _apiClient.responseHandler(response, (error, beers) {
             currentState
-              ..currentPairingList = beers
+              ..currentPairingList = (error == null) ? beers : []
               ..error = error
               ..loadingPairingList = false;
             sinkBeersSate(currentState);

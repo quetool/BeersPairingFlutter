@@ -2,5 +2,6 @@
   "app_title": "Beers Pairing",
   "random_beer_tab_title": "Random Beer",
   "paired_beers_tab_title": "Paired Beers",
-  "eating_question": "What are you eating?"
+  "eating_question": "What are you eating?",
+  "serialization_error": "Couldn't serialize response"
 }

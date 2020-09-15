@@ -13,6 +13,7 @@ class TranslationsKeys {
   static String randomBeerTabTitle = 'random_beer_tab_title';
   static String pairedBeersTabTitle = 'paired_beers_tab_title';
   static String eatingQuestion = 'eating_question';
+  static String serializationError = 'serialization_error';
 }
 
 class BeersPairingLocalizations {
@@ -33,8 +34,8 @@ class BeersPairingLocalizations {
   Future<bool> load() async {
     var jsonString = await rootBundle
         .loadString('assets/language/${appLocale.languageCode}.json');
-    Map<String, dynamic> jsonMap = json.decode(jsonString);
-    _localizedStrings = jsonMap.map((key, value) {
+    var jsonMap = json.decode(jsonString) as Map<String, dynamic>;
+    _localizedStrings = jsonMap.map((String key, dynamic value) {
       return MapEntry(key, value.toString());
     });
     return true;
