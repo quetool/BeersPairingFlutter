@@ -1,7 +1,6 @@
 import 'package:beers_pairing/api/punkapi.dart';
 import 'package:beers_pairing/models/beer.dart';
 import 'package:beers_pairing/models/error.dart';
-import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 
 class BeersSate {

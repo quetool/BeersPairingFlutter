@@ -15,9 +15,9 @@ class AbvWidget extends StatelessWidget {
     return Container(
       padding:
           const EdgeInsets.only(left: 8.0, top: 4.0, right: 8.0, bottom: 4.0),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.blue,
-        borderRadius: const BorderRadius.all(
+        borderRadius: BorderRadius.all(
           Radius.circular(12.0),
         ),
       ),
@@ -133,7 +133,7 @@ class PairedBeerCell extends StatelessWidget {
                                     .map(
                                       (food) => Text(
                                         '$food',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 14.0,
                                           color: Colors.orange,
                                         ),

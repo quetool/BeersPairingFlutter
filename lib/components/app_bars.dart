@@ -84,8 +84,8 @@ class DefaultAppBar extends StatelessWidget {
             }
             return IconButton(
               icon: (snapshot.data.brightness == Brightness.dark)
-                  ? Icon(Icons.wb_sunny)
-                  : Icon(Icons.brightness_3),
+                  ? const Icon(Icons.wb_sunny)
+                  : const Icon(Icons.brightness_3),
               onPressed: () {
                 var appTheme = (snapshot.data.brightness == Brightness.light)
                     ? AppThemes.darkTheme

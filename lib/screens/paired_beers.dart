@@ -30,7 +30,7 @@ class _PairedBeersBodyState extends State<PairedBeersBody> {
               child: Text(
                 BeersPairingLocalizations.of(context)
                     .translate(snapshot.data.error.message),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                 ),
               ),

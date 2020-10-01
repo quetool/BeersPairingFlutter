@@ -24,6 +24,7 @@ class ApiClient {
   }
 
   Future<http.Response> getMeRandomBeer() {
+    print(_rootApi + _allBeers + _randomBeer);
     return http.get(_rootApi + _allBeers + _randomBeer);
   }
 

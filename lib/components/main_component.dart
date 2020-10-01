@@ -53,7 +53,7 @@ class _MainComponentState extends State<MainComponent>
                   .translate(TranslationsKeys.appTitle),
               actions: <Widget>[
                 IconButton(
-                  icon: Icon(Icons.refresh),
+                  icon: const Icon(Icons.refresh),
                   onPressed: () {
                     Provider.beersBlocOf(context).getRandomBeer();
                   },

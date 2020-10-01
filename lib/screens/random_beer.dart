@@ -2,7 +2,6 @@ import 'package:beers_pairing/bloc/beers_bloc.dart';
 import 'package:beers_pairing/bloc/provider.dart';
 import 'package:beers_pairing/components/custom_widgets.dart';
 import 'package:beers_pairing/localization/app_localization.dart';
-import 'package:beers_pairing/screens/beer_details.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +44,7 @@ class _RandomBeerBodyState extends State<RandomBeerBody> {
               child: Text(
                 BeersPairingLocalizations.of(context)
                     .translate(snapshot.data.error.message),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                 ),
               ),
