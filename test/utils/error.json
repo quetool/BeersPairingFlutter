@@ -1,0 +1,13 @@
+{
+  "statusCode": 400,
+  "error": "Bad Request",
+  "message": "Invalid query params",
+  "data": [
+    {
+      "location": "query",
+      "param": "page",
+      "msg": "Must be a number greater than 0",
+      "value": "0"
+    }
+  ]
+}

@@ -14,6 +14,7 @@ class TranslationsKeys {
   static String pairedBeersTabTitle = 'paired_beers_tab_title';
   static String eatingQuestion = 'eating_question';
   static String serializationError = 'serialization_error';
+  static String requestError = 'request_error';
 }
 
 class BeersPairingLocalizations {

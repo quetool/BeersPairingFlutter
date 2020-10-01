@@ -32,7 +32,7 @@ class _AppBarPairedBeersBodyState extends State<AppBarPairedBeersBody> {
                   .translate(TranslationsKeys.eatingQuestion),
             ),
             onSubmitted: (text) {
-              Provider.beersBlocOf(context).getAllBeers(text, 1, 20);
+              Provider.beersBlocOf(context).getAllBeers(text, 0, 20);
             },
           ),
         ),

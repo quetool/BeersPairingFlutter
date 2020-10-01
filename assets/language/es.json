@@ -3,5 +3,6 @@
   "random_beer_tab_title": "Cerveza Casual",
   "paired_beers_tab_title": "Cervezas Maridadas",
   "eating_question": "¿Qué estas comiendo?",
-  "serialization_error": "No se pudo serializar la respuesta"
+  "serialization_error": "No se pudo serializar la respuesta",
+  "request_error": "Ocurrió un error"
 }

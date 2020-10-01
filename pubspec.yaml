@@ -24,9 +24,15 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  test: ^1.15.4
+  test_coverage: ^0.4.3
+  flutter_coverage_badge: ^0.0.1+1
+  mockito: ^4.1.2
 
 flutter:
   uses-material-design: true
   assets:
     - assets/language/es.json
     - assets/language/en.json
+    - test/utils/beer.json
+    - test/utils/error.json

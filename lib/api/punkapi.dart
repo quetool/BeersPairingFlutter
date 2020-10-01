@@ -14,6 +14,7 @@ class ApiClient {
   String _rootApi;
   String _allBeers;
   String _randomBeer;
+  http.Client client;
 
   static final ApiClient _singleton = ApiClient._internal().._init();
 
@@ -21,16 +22,18 @@ class ApiClient {
     _rootApi = 'https://api.punkapi.com/v2';
     _allBeers = '/beers';
     _randomBeer = '/random';
+    client = http.Client();
   }
 
   Future<http.Response> getMeRandomBeer() {
     print(_rootApi + _allBeers + _randomBeer);
-    return http.get(_rootApi + _allBeers + _randomBeer);
+    return client.get(_rootApi + _allBeers + _randomBeer);
   }
 
-  Future<http.Response> getBeerDetails(int beerId) {
-    return http.get('$_rootApi$_allBeers$beerId');
-  }
+  // Future<http.Response> getBeerDetails(int beerId) {
+  //   print('$_rootApi$_allBeers$beerId');
+  //   return client.get('$_rootApi$_allBeers$beerId');
+  // }
 
   Future<http.Response> getAllBeers(String byFood, int fromPage, int perPage) {
     var parameters = '?page=$fromPage&per_page=$perPage';
@@ -38,11 +41,12 @@ class ApiClient {
       var food = byFood.trim().replaceAll(' ', '_');
       parameters += '&food=$food';
     }
-    return http.get(_rootApi + _allBeers + parameters);
+    print(_rootApi + _allBeers + parameters);
+    return client.get(_rootApi + _allBeers + parameters);
   }
 
   Future<http.Response> retryRequestAfterFail(String request) {
-    return http.get(request);
+    return client.get(request);
   }
 
   void responseHandler(http.Response response,
@@ -64,9 +68,10 @@ class ApiClient {
         completion(error, null);
       }
     } else {
-      completion(
-          ApiError.fromJson(json.decode(response.body) as Map<String, dynamic>),
-          null);
+      var error =
+          ApiError.fromJson(json.decode(response.body) as Map<String, dynamic>)
+            ..message = TranslationsKeys.requestError;
+      completion(error, null);
     }
   }
 }
