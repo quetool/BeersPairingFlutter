@@ -1,6 +1,7 @@
 import 'package:beers_pairing/api/punkapi.dart';
 import 'package:beers_pairing/models/beer.dart';
 import 'package:beers_pairing/models/error.dart';
+import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 
 class BeersSate {
@@ -8,6 +9,7 @@ class BeersSate {
   bool loadingPairingList = false;
   Beer currentRandomBeer;
   List<Beer> currentPairingList = [];
+  List<String> pairedWords = [];
   bool ascendingSort = false;
   ApiError error;
 }
@@ -53,6 +55,7 @@ class BeersBloc extends Object {
   void getAllBeers(String byFood, int fromPage, int perPage) {
     var currentState = currentBeersState()
       ..loadingPairingList = true
+      ..pairedWords = []
       ..error = null;
     sinkBeersSate(currentState);
 
@@ -61,6 +64,7 @@ class BeersBloc extends Object {
             currentState
               ..currentPairingList = (error == null) ? beers : []
               ..error = error
+              ..pairedWords = byFood.split(' ')
               ..loadingPairingList = false;
             sinkBeersSate(currentState);
           }),

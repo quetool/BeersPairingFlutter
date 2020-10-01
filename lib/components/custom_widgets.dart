@@ -37,46 +37,52 @@ class PairedBeerCell extends StatelessWidget {
     Key key,
     @required this.beer,
     @required this.onTap,
+    this.pairedWords,
   }) : super(key: key);
 
   final Beer beer;
   final Function(Beer) onTap;
+  final List<String> pairedWords;
 
   @override
   Widget build(BuildContext context) {
+    var matches = beer.foodPairing
+        .where((food) => pairedWords
+            .where(
+                (element) => food.toLowerCase().contains(element.toLowerCase()))
+            .isNotEmpty)
+        .toList();
     return Card(
       child: InkWell(
         onTap: () => onTap(beer),
         child: Container(
-          height: (MediaQuery.of(context).size.width / 3),
           padding: const EdgeInsets.only(bottom: 8.0, top: 8.0, right: 8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              AspectRatio(
-                aspectRatio: 1.0,
-                child: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: <Widget>[
-                      Hero(
-                        tag: beer.id,
-                        child: CachedNetworkImage(
-                          imageUrl: beer.imageUrl ??
-                              'https://via.placeholder.com/350?text=No+Image',
-                          fit: BoxFit.contain,
-                        ),
+              Container(
+                padding: const EdgeInsets.all(8.0),
+                width: (MediaQuery.of(context).size.width / 3.5),
+                height: (MediaQuery.of(context).size.width / 3.5),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: <Widget>[
+                    Hero(
+                      tag: beer.id,
+                      child: CachedNetworkImage(
+                        imageUrl: beer.imageUrl ??
+                            'https://via.placeholder.com/350?text=No+Image',
+                        fit: BoxFit.contain,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          AbvWidget(percentage: beer.abv),
-                        ],
-                      )
-                    ],
-                  ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        AbvWidget(percentage: beer.abv),
+                      ],
+                    )
+                  ],
                 ),
               ),
               Expanded(
@@ -96,13 +102,54 @@ class PairedBeerCell extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Expanded(
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12.0),
                         child: Text(
                           beer.description,
-                          overflow: TextOverflow.fade,
+                          maxLines: 10,
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             fontSize: 14.0,
                           ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            const Text(
+                              'Good with: ',
+                              style: TextStyle(
+                                fontSize: 14.0,
+                              ),
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: matches
+                                    .map(
+                                      (food) => Text(
+                                        '$food',
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.orange,
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        beer.tagline,
+                        style: const TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.grey,
                         ),
                       ),
                     ],
@@ -112,6 +159,38 @@ class PairedBeerCell extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class Tagsline extends StatelessWidget {
+  const Tagsline({
+    Key key,
+    @required this.tagline,
+  }) : super(key: key);
+
+  final List<String> tagline;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 30.0,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (BuildContext context, int index) {
+          return Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Chip(
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              label: Text(
+                tagline[index],
+              ),
+            ),
+          );
+        },
+        itemCount: tagline.length,
       ),
     );
   }

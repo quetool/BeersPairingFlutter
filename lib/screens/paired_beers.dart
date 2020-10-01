@@ -44,6 +44,7 @@ class _PairedBeersBodyState extends State<PairedBeersBody> {
             itemBuilder: (BuildContext context, int index) {
               return PairedBeerCell(
                 beer: snapshot.data.currentPairingList[index],
+                pairedWords: snapshot.data.pairedWords,
                 onTap: (beer) {
                   Navigator.of(context).push(
                     MaterialPageRoute<BeerDetailsScreen>(

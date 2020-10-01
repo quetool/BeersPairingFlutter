@@ -2,6 +2,7 @@ import 'package:beers_pairing/bloc/beers_bloc.dart';
 import 'package:beers_pairing/bloc/provider.dart';
 import 'package:beers_pairing/components/custom_widgets.dart';
 import 'package:beers_pairing/localization/app_localization.dart';
+import 'package:beers_pairing/screens/beer_details.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -106,12 +107,9 @@ class _RandomBeerBodyState extends State<RandomBeerBody> {
                           ),
                         ),
                       ),
-                      Text(
-                        snapshot.data.currentRandomBeer.tagline,
-                        style: const TextStyle(
-                          fontSize: 14.0,
-                          color: Colors.grey,
-                        ),
+                      Tagsline(
+                        tagline:
+                            snapshot.data.currentRandomBeer.tagline.split(' '),
                       ),
                     ],
                   ),

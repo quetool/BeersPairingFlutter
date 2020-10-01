@@ -44,7 +44,7 @@ class _AppBarPairedBeersBodyState extends State<AppBarPairedBeersBody> {
               return IconButton(
                 icon: Transform.rotate(
                   angle: snapshot.data.ascendingSort ? pi : 0.0,
-                  child: Icon(Icons.filter_list),
+                  child: const Icon(Icons.filter_list),
                 ),
                 onPressed: () {
                   Provider.beersBlocOf(context).sortBeers();

@@ -75,12 +75,35 @@ class _BeerDetailsScreenState extends State<BeerDetailsScreen> {
                         ),
                       ),
                     ),
-                    Text(
-                      widget.beer.tagline,
-                      style: const TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.grey,
+                    Tagsline(
+                      tagline: widget.beer.tagline.split(' '),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
+                      width: double.infinity,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          const Text(
+                            'Food Pairings:',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15.0,
+                            ),
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: widget.beer.foodPairing
+                                .map((food) => Text('- $food'))
+                                .toList(),
+                          ),
+                        ],
                       ),
+                    ),
+                    IngredientsPanel(
+                      ingredients: widget.beer.ingredients,
                     ),
                   ],
                 ),
@@ -89,6 +112,89 @@ class _BeerDetailsScreenState extends State<BeerDetailsScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class IngredientsPanel extends StatefulWidget {
+  const IngredientsPanel({
+    Key key,
+    @required this.ingredients,
+  }) : super(key: key);
+
+  final Ingredients ingredients;
+
+  @override
+  _IngredientsPanelState createState() => _IngredientsPanelState();
+}
+
+class _IngredientsPanelState extends State<IngredientsPanel> {
+  bool pannelExpanded = false;
+  bool maltExpanded = false;
+  bool hopsExpanded = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionPanelList(
+      expandedHeaderPadding: const EdgeInsets.all(0.0),
+      expansionCallback: (int index, bool isExpanded) {
+        setState(() {
+          pannelExpanded = !pannelExpanded;
+        });
+      },
+      children: [
+        ExpansionPanel(
+          headerBuilder: (BuildContext context, bool isExpanded) {
+            return const ListTile(
+              title: Text(
+                'Ingredientes',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          },
+          body: Column(
+            children: <Widget>[
+              ExpansionPanelList(
+                expandedHeaderPadding: const EdgeInsets.all(0.0),
+                children: [
+                  ExpansionPanel(
+                    headerBuilder: (BuildContext context, bool isExpanded) {
+                      return ListTile(
+                        title: const Text('Malta'),
+                        onTap: () {},
+                      );
+                    },
+                    body: Container(),
+                    isExpanded: false,
+                  ),
+                  ExpansionPanel(
+                    headerBuilder: (BuildContext context, bool isExpanded) {
+                      return ListTile(
+                        title: const Text('Hops'),
+                        onTap: () {},
+                      );
+                    },
+                    body: Container(),
+                    isExpanded: false,
+                  ),
+                ],
+              ),
+              ListTile(
+                title: Text('Yeast: ${widget.ingredients.yeast}'),
+                onTap: () {},
+              ),
+            ],
+          ),
+          isExpanded: pannelExpanded,
+        )
+      ],
     );
   }
 }
