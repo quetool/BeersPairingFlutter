@@ -45,9 +45,9 @@ class ApiClient {
     return client.get(_rootApi + _allBeers + parameters);
   }
 
-  Future<http.Response> retryRequestAfterFail(String request) {
-    return client.get(request);
-  }
+  // Future<http.Response> retryRequestAfterFail(String request) {
+  //   return client.get(request);
+  // }
 
   void responseHandler(http.Response response,
       Function(ApiError error, List<Beer> beers) completion) {

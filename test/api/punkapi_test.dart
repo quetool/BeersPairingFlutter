@@ -44,9 +44,29 @@ void main() async {
           );
         });
 
-      final response = await apiClient.getAllBeers('', 1, 20);
+      final response = await apiClient.getAllBeers('cheese', 1, 20);
       apiClient.responseHandler(response, (error, beers) {
         expect(beers, isA<List<Beer>>());
+      });
+    });
+
+    test('all beers from page 1 with failure data', () async {
+      final apiClient = ApiClient()
+        ..client = MockClient((http.Request request) async {
+          // var randomBeerBody =
+          //     await rootBundle.loadString('test/utils/beer.json');
+          return http.Response(
+            '[{"id": 74,"name": "Eurotrash"]',
+            200,
+            headers: {
+              'content-type': 'application/json; charset=utf-8',
+            },
+          );
+        });
+
+      final response = await apiClient.getAllBeers('cheese', 1, 20);
+      apiClient.responseHandler(response, (error, beers) {
+        expect(error, isNotNull);
       });
     });
   });
